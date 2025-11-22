@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
-import TheWelcome from './components/TheWelcome.vue';
+import CrossMathGrid from './components/CrossMathGrid.vue';
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <v-app>
+    <!-- <header></header> -->
+    <main>
+      <div class="gridContainer">
+        <CrossMathGrid />
+      </div>
+    </main>
+  </v-app>
 </template>
 
 <style scoped>
+.gridContainer {
+  width: 100vw;
+  height: 100vh;
+}
+
 header {
   line-height: 1.5;
 }

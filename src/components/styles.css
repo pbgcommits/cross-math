@@ -1,0 +1,28 @@
+.square {
+  width: 5vh;
+  height: 5vh;
+  max-width: 80px;
+  max-height: 80px;
+  min-height: 30px;
+  min-width: 30px;
+  background-color: grey;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 200%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  /* border-color: black;
+  border: 1em; */
+}
+
+.square.empty {
+  background-color: lightgray;
+}
+
+.mathGrid {
+  background-color: black;
+}
