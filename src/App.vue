@@ -1,24 +1,25 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import CrossMathGrid from './components/CrossMathGrid.vue';
+const won = ref(false);
 </script>
 
 <template>
   <v-app>
-    <!-- <header></header> -->
+    <header>
+      <h1>CrossMath</h1>
+      <VAlert v-if="won">You won!</VAlert>
+    </header>
     <main>
-      <div class="gridContainer">
-        <CrossMathGrid />
+      <div class="d-flex justify-center align-center fill-height">
+        <CrossMathGrid v-model="won" />
       </div>
     </main>
+    <v-footer>Made by Patrick Barton Grace</v-footer>
   </v-app>
 </template>
 
 <style scoped>
-.gridContainer {
-  width: 100vw;
-  height: 100vh;
-}
-
 header {
   line-height: 1.5;
 }

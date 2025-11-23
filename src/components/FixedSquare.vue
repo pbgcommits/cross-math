@@ -1,5 +1,5 @@
 <template>
-  <div class="square empty" autofocus="">
+  <div class="square" autofocus="">
     <p>{{ symbol }}</p>
     <!-- <slot name="element"></slot> -->
   </div>

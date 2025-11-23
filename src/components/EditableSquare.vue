@@ -1,11 +1,12 @@
 <template>
-  <v-container>
-    <input class="square" />
-  </v-container>
+  <input class="square" :value="props.userInput" @input.prevent="emit('update', $event)" />
 </template>
 
 <script setup lang="ts">
 import './styles.css';
+
+const props = defineProps<{ userInput: string }>();
+const emit = defineEmits<{ update: [event: Event] }>();
 
 // function limitText() {
 //   // Only allow a single digit

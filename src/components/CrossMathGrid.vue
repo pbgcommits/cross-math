@@ -1,25 +1,33 @@
 <template>
-  <v-container class="mathGrid">
-    <v-row v-for="(row, rowIndex) in grid" :key="rowIndex">
-      <v-col v-for="(squareType, colIndex) in row" :key="colIndex" cols="1">
+  <v-container>
+    <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="puzzleRow">
+      <div v-for="(squareType, colIndex) in row" :key="colIndex">
         <div v-if="squareType == '_'">
           <!--Why might userInput be undefined? (why do we need !)-->
           <EditableSquare
-            v-model="userInput[Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value"
-            @input.prevent="checkSolution"
+            :userInput="userInputGrid[Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value"
+            @update="
+              ($event) => {
+                limitText($event);
+                userInputGrid[Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value = (
+                  $event.target as HTMLInputElement
+                ).value;
+                won = isValidSolution();
+              }
+            "
           />
         </div>
         <div v-else-if="!isNaN(parseInt(squareType))">
-          <FixedSquare :symbol="squareType" />
+          <FixedSquare :symbol="squareType" :class="'answer'" />
         </div>
         <div v-else-if="squareType.match(operators)">
-          <FixedSquare :symbol="squareType" />
+          <FixedSquare :symbol="squareType" :class="'empty'" />
         </div>
         <div v-else-if="squareType == ' '">
           <FixedSquare style="background-color: white" />
         </div>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -28,8 +36,9 @@ import { getData, operators } from '@/data';
 import EditableSquare from './EditableSquare.vue';
 import FixedSquare from './FixedSquare.vue';
 import { ref } from 'vue';
+const won = defineModel<boolean>({ default: false });
 const { grid } = getData();
-const userInput = [
+const userInputGrid = [
   [ref(''), ref(''), ref('')],
   [ref(''), ref(''), ref('')],
   [ref(''), ref(''), ref('')],
@@ -49,16 +58,36 @@ function limitText(event: Event) {
   }
 }
 
-function checkSolution(event: Event) {
-  limitText(event);
-  let g = '[';
-  for (const row of userInput) {
-    for (const col of row) {
-      g += col.value + ',';
-    }
-    g += ',\n';
+function isValidSolution(): boolean {
+  if (!noRepeatedNumbers()) return false;
+  if (!correctCalculations()) return false;
+  return true;
+}
+
+function correctCalculations(): boolean {
+  for (let i = 0; i < 3; i++) {
+    grid.forEach((v) => console.log(v));
   }
-  g += ']';
-  console.log(g);
+  return true;
+}
+
+function noRepeatedNumbers(): boolean {
+  let prev = userInputGrid[0]![0]!.value;
+  if (prev == '') return false;
+  for (let i = 1; i < 9; i++) {
+    const next = userInputGrid[Math.floor(i / 3)]![i % 3]!.value;
+    if (next == prev || next == '') return false;
+    prev = next;
+  }
+  return true;
 }
 </script>
+
+<style>
+.puzzleRow {
+  display: grid;
+  grid-template-columns: repeat(7, max-content);
+  column-gap: 0;
+  row-gap: 0;
+}
+</style>

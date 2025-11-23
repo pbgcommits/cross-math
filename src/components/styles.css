@@ -1,6 +1,6 @@
 .square {
-  width: 5vh;
-  height: 5vh;
+  width: 8vh;
+  height: 8vh;
   max-width: 80px;
   max-height: 80px;
   min-height: 30px;
@@ -23,6 +23,6 @@
   background-color: lightgray;
 }
 
-.mathGrid {
-  background-color: black;
+.square.answer {
+  background-color: rgb(167, 164, 164);
 }
