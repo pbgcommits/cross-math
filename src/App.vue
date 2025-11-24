@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CrossMathGrid from './components/CrossMathGrid.vue';
+import { getData, getRandomGame } from './data';
 const won = ref(false);
+const puzzle = ref(getData().puzzle);
+function newGame() {
+  puzzle.value = getRandomGame().puzzle;
+}
 </script>
 
 <template>
@@ -9,10 +14,11 @@ const won = ref(false);
     <header>
       <h1>CrossMath</h1>
       <VAlert v-if="won">You won!</VAlert>
+      <button @click="newGame">New game</button>
     </header>
     <main>
       <div class="d-flex justify-center align-center fill-height">
-        <CrossMathGrid v-model="won" />
+        <CrossMathGrid v-model="won" :puzzle="puzzle" />
       </div>
     </main>
     <v-footer>Made by Patrick Barton Grace</v-footer>

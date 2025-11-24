@@ -17,6 +17,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@thi.ng/random": "^4.1.33",
     "pinia": "^3.0.3",
     "vue": "^3.5.22",
     "vuetify": "^3.10.11"
