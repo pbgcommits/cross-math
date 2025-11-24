@@ -11,6 +11,9 @@ const day = getDaysSinceLaunch() + 1;
 </script>
 
 <template>
+  <head>
+    <title>CrossMath</title>
+  </head>
   <v-app>
     <header>
       <h1>CrossMath #{{ day }}</h1>
