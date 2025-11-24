@@ -40,7 +40,6 @@ export function getDaysSinceLaunch() {
 }
 
 export function getDailyGame() {
-  console.log('days since launch: ', getDaysSinceLaunch);
   return generateGame(getDaysSinceLaunch());
 }
 

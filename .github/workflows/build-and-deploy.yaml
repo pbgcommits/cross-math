@@ -1,0 +1,46 @@
+name: Build and Deploy to Repo2
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout cross-math
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Checkout Pages
+        uses: actions/checkout@v4
+        with:
+          repository: pbgcommits/pbgcommits.github.io
+          token: ${{ secrets.PAGES_TOKEN }}
+          path: pages
+
+      - name: Clear cross-math and copy build output
+        run: |
+          mkdir -p cross-math
+          rm -rf cross-math/*
+          cp -r dist/* cross-math/
+
+      - name: Commit and Push to cross-math
+        run: |
+          cd cross-math
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Deploy from cross-math on $(date)" || echo "No changes to commit"
+          git push
