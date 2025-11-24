@@ -33,9 +33,10 @@ jobs:
       - name: Clear cross-math and copy build output
         run: |
           cd pages
+          git remote -v
           mkdir -p cross-math
           rm -rf cross-math/*
-          cp -r dist/* cross-math/
+          cp -r ../dist/* cross-math/
 
       - name: Commit and Push to cross-math
         run: |
