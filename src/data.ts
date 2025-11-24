@@ -24,6 +24,26 @@ export function getData() {
   return { puzzle, solution };
 }
 
+/**
+ * This function was originally written by Stevage and myself for use in
+ * Trainle ('daysSinceStart()' in App.vue) https://github.com/stevage/trainle/blob/main/src/App.vue)
+ */
+export function getDaysSinceLaunch() {
+  // 6am rather than midnight to solve issues with daylight savings
+  const sixAmOfToday = new Date();
+  sixAmOfToday.setHours(6, 0, 0, 0);
+  const midnightOfStart = new Date('2025-11-24');
+  midnightOfStart.setHours(0, 0, 0, 0);
+
+  const diff = sixAmOfToday.getTime() - midnightOfStart.getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
+export function getDailyGame() {
+  console.log('days since launch: ', getDaysSinceLaunch);
+  return generateGame(getDaysSinceLaunch());
+}
+
 export function getRandomGame() {
   return generateGame(SYSTEM.int());
 }

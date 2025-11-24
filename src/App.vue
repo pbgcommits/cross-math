@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CrossMathGrid from './components/CrossMathGrid.vue';
-import { getData, getRandomGame } from './data';
+import { getDailyGame, getDaysSinceLaunch, getRandomGame } from './data';
 const won = ref(false);
-const puzzle = ref(getData().puzzle);
+const puzzle = ref(getDailyGame().puzzle);
 function newGame() {
   puzzle.value = getRandomGame().puzzle;
 }
+const day = getDaysSinceLaunch() + 1;
 </script>
 
 <template>
   <v-app>
     <header>
-      <h1>CrossMath</h1>
+      <h1>CrossMath #{{ day }}</h1>
       <VAlert v-if="won">You won!</VAlert>
       <button @click="newGame">New game</button>
     </header>
