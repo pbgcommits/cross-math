@@ -34,6 +34,8 @@ jobs:
         run: |
           cd pages
           git remote -v
+          ls -la
+          ls -la .git
           mkdir -p cross-math
           rm -rf cross-math/*
           cp -r ../dist/* cross-math/
