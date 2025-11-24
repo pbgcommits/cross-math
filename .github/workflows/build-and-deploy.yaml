@@ -39,9 +39,6 @@ jobs:
           mkdir -p cross-math
           rm -rf cross-math/*
           cp -r ../dist/* cross-math/
-
-      - name: Commit and Push to cross-math
-        run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .
