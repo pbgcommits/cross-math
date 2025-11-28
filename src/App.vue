@@ -33,14 +33,22 @@ const day = getDaysSinceLaunch() + 1;
   <head> </head>
   <v-app>
     <header>
-      <h1>CrossMath #{{ day }}</h1>
+      <div>
+        <h1 style="padding-right: 10px">CrossMath #{{ day }}</h1>
+      </div>
       <VSpacer></VSpacer>
-      <v-btn @click="newGame">New game</v-btn>
-      <VSpacer></VSpacer>
-      <v-btn @click="dailyGame">Daily game</v-btn>
-      <v-btn v-if="won" @click="victoryScreenVisible = true">View results</v-btn>
+      <div>
+        <VToolbar>
+          <VBtn @click="newGame">New game </VBtn>
+          <VBtn @click="dailyGame">Daily game</VBtn>
+          <VBtn v-if="won" @click="victoryScreenVisible = true">View results</VBtn>
+        </VToolbar>
+      </div>
       <VDialog v-model="victoryScreenVisible">
-        <v-card title="You won!">
+        <v-card
+          title="You won!"
+          style="min-width: 300px; max-width: 400px; align-items: center; align-self: center"
+        >
           <v-card-text> </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
