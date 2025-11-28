@@ -3,26 +3,52 @@ import { ref } from 'vue';
 import CrossMathGrid from './components/CrossMathGrid.vue';
 import { getDailyGame, getDaysSinceLaunch, getRandomGame } from './data';
 const won = ref(false);
+const victoryScreenVisible = ref(false);
+const userInputGrid = [
+  [ref(''), ref(''), ref('')],
+  [ref(''), ref(''), ref('')],
+  [ref(''), ref(''), ref('')],
+];
 const puzzle = ref(getDailyGame().puzzle);
 function newGame() {
   puzzle.value = getRandomGame().puzzle;
+  won.value = false;
+  for (const row of userInputGrid) {
+    for (const col of row) {
+      col.value = '';
+    }
+  }
 }
 const day = getDaysSinceLaunch() + 1;
 </script>
 
 <template>
-  <head>
-    <title>CrossMath</title>
-  </head>
+  <head> </head>
   <v-app>
     <header>
       <h1>CrossMath #{{ day }}</h1>
-      <VAlert v-if="won">You won!</VAlert>
-      <button @click="newGame">New game</button>
+      <VSpacer></VSpacer>
+      <v-btn @click="newGame">New game</v-btn>
+      <VSpacer></VSpacer>
+      <v-btn v-if="won" @click="victoryScreenVisible = true">View results</v-btn>
+      <VDialog v-model="victoryScreenVisible">
+        <v-card title="You won!">
+          <v-card-text> </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text="Close" @click="victoryScreenVisible = false"></v-btn>
+          </v-card-actions>
+        </v-card>
+      </VDialog>
     </header>
     <main>
       <div class="d-flex justify-center align-center fill-height">
-        <CrossMathGrid v-model="won" :puzzle="puzzle" />
+        <CrossMathGrid
+          v-model:won="won"
+          v-model:victory-screen-visible="victoryScreenVisible"
+          v-model:user-input-grid="userInputGrid"
+          :puzzle="puzzle"
+        />
       </div>
     </main>
     <v-footer>Made by Patrick Barton Grace</v-footer>

@@ -4,14 +4,18 @@
       <div v-for="(squareType, colIndex) in row" :key="colIndex">
         <div v-if="squareType == '_'">
           <EditableSquare
-            :userInput="userInputGrid[Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value"
+            :userInput="userInputGrid![Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value"
             @update="
               ($event) => {
                 limitText($event);
-                userInputGrid[Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value = (
+                userInputGrid![Math.floor(rowIndex / 2)]![Math.floor(colIndex / 2)]!.value = (
                   $event.target as HTMLInputElement
                 ).value;
-                won = isValidSolution();
+                const isValid = isValidSolution();
+                if (isValid) {
+                  won = true;
+                  victoryScreenVisible = true;
+                }
               }
             "
           />
@@ -34,15 +38,12 @@
 import { operators } from '@/data';
 import EditableSquare from './EditableSquare.vue';
 import FixedSquare from './FixedSquare.vue';
-import { ref } from 'vue';
 import { correctCalculations, noRepeatedNumbers } from '@/calculations';
+import { type Ref } from 'vue';
 const props = defineProps<{ puzzle: string[][] }>();
-const won = defineModel<boolean>({ default: false });
-const userInputGrid = [
-  [ref(''), ref(''), ref('')],
-  [ref(''), ref(''), ref('')],
-  [ref(''), ref(''), ref('')],
-];
+const won = defineModel<boolean>('won', { default: false });
+const victoryScreenVisible = defineModel<boolean>('victoryScreenVisible', { default: false });
+const userInputGrid = defineModel<Ref<string>[][]>('userInputGrid');
 
 function limitText(event: Event) {
   // Only allow a single digit
@@ -59,8 +60,9 @@ function limitText(event: Event) {
 }
 
 function isValidSolution(): boolean {
-  if (!correctCalculations(userInputGrid, props.puzzle)) return false;
-  if (!noRepeatedNumbers(userInputGrid)) return false;
+  const uig = userInputGrid.value!;
+  if (!correctCalculations(uig, props.puzzle)) return false;
+  if (!noRepeatedNumbers(uig)) return false;
   return true;
 }
 </script>
