@@ -12,6 +12,13 @@ const userInputGrid = [
 const puzzle = ref(getDailyGame().puzzle);
 function newGame() {
   puzzle.value = getRandomGame().puzzle;
+  resetPuzzle();
+}
+function dailyGame() {
+  puzzle.value = getDailyGame().puzzle;
+  resetPuzzle();
+}
+function resetPuzzle() {
   won.value = false;
   for (const row of userInputGrid) {
     for (const col of row) {
@@ -30,6 +37,7 @@ const day = getDaysSinceLaunch() + 1;
       <VSpacer></VSpacer>
       <v-btn @click="newGame">New game</v-btn>
       <VSpacer></VSpacer>
+      <v-btn @click="dailyGame">Daily game</v-btn>
       <v-btn v-if="won" @click="victoryScreenVisible = true">View results</v-btn>
       <VDialog v-model="victoryScreenVisible">
         <v-card title="You won!">
